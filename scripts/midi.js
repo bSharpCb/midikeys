@@ -68,8 +68,8 @@ function makeSynth(){
                 // Log events with note values, only log 1 event per note
                 if(message.data[0] === 144 && message.data[2] > 0){
                     pressNote(message.data);
-                    playNote(frequency*pb[harm1]-2, type1);
-                    playNote(frequency*pb[harm2]-1, type2);
+                    playNote(frequency*pb[harm1]-2, wav[type1]);
+                    playNote(frequency*pb[harm2]-1, wav[type2]);
                     console.log(message);
                 }
                 if (message.data[0] === 128 || message.data[2] === 0) {
