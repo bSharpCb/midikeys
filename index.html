@@ -63,7 +63,86 @@
             <div id="n92"></div>
             <div id="n94"></div>
         </div>
+        <div id="content">
 
+        
+        <div id="osc1">
+            Oscillator 1
+            <select id="osc1-type">
+                <option value="0">Sine</option>
+                <option value="1">Square</option>
+                <option value="2">Sawtooth</option>
+                <option value="3">Triangle</option>
+            </select>
+    
+    
+            <select id="osc1-harmonize">
+                <option value="0">None</option>
+                <option value="1">5th up</option>
+                <option value='2'>5th down</option>
+                <option value="3">Octave up</option>
+                <option value="4">Octave down</option>
+                <option value="5">Third up</option>
+                <option value="6">Third down</option>
+            </select>
+        </div>
+        <div id="osc2">
+            Oscillator 2
+            <select id="osc2-type">
+                <option value="0">Sine</option>
+                <option value="1">Square</option>
+                <option value="2">Sawtooth</option>
+                <option value="3">Triangle</option>
+            </select>
+    
+    
+            <select id="osc2-harmonize">
+                <option value="0">None</option>
+                <option value="1">5th up</option>
+                <option value='2'>5th down</option>
+                <option value="3">Octave up</option>
+                <option value="4">Octave down</option>
+                <option value="5">Third up</option>
+                <option value="6">Third down</option>
+            </select>
+        </div>
+        
+        <button id="synbtn" onclick="makeSynth()">New synth</button>
+        
+        <h1>JSynth by bSharp</h1>
+        <h3>MIDI compatible synthjams, now available in browser!</h3>
+        <ul>
+            <li>
+                4 Octaves ranging MIDI 48-94 (e.g. middle C = 60)
+            </li>
+            <li>
+                polyphonic, responsive output 
+            </li>
+            <li>
+                visual representation of MIDI inputs
+            </li>
+            <li>
+                2 Oscillators (slightly detuned, for harmony's sake)
+            </li>
+        </ul>
+        <br>
+        <p>
+            Select waveforms and/or pitch bend for both oscillators, then click "New synth"
+            <br><b>Note:</b> refresh recommended if you wanna make a new synth (or don't, sometimes it sounds cool)
+        </p>
+        
+        <div id="info">
+            <b>Brad Shaffer</b>
+            <br>
+            <b>bradsha0802@gmail.com</b>
+        </div>
+        <div id="links">
+            <a href="https://github.com/bsharpcb">Github</a>
+            <a href="https://twitter.com/bSharpCb">Twitter</a>
+            <a href="https://www.linkedin.com/in/bradley-shaffer-9a8b5772/">LinkedIn</a>
+        </div>
+        
+    </div>
     <script type="text/javascript" src="./scripts/piano.js"></script>
     <script type="text/javascript" src="./scripts/midi.js"></script>
     </body>

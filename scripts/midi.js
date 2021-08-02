@@ -21,8 +21,16 @@
  * 
  */
 
+
+function midiNoteToFrequency (note) {
+    return Math.pow(2, ((note - 69) / 12)) * 440;
+}
+
+let context = new AudioContext(),
+oscillators = {};
+
 function pressNote(midiArray){
-    var target = document.getElementById('n' + midiArray[1]);
+    let target = document.getElementById('n' + midiArray[1]);
     switch (midiArray[2]) {
         case 0:
             target.style = "";
@@ -32,21 +40,48 @@ function pressNote(midiArray){
     }
 }
 
- navigator.requestMIDIAccess().then(function(access) {
-    let inputs = access.inputs;
-    let midiCache = 0;
-    inputs.forEach((input) => {
-        input.onmidimessage = function(message) {
-            // Log events with note values, only log 1 event per note
-            while(message.data[1] && message.data != midiCache){
-                pressNote(message.data);                
-                midiCache = message.data;
-                console.log(message.data);
+function playNote (frequency,type) {
+    oscillators[frequency] = context.createOscillator();
+    oscillators[frequency].type = type;
+    oscillators[frequency].frequency.value = frequency;
+    oscillators[frequency].connect(context.destination);
+    oscillators[frequency].start(context.currentTime);
+}
+ 
+function stopNote (frequency) {
+    oscillators[frequency].stop(context.currentTime);
+    oscillators[frequency].disconnect();
+}
+let wav = ['sine', 'square', 'sawtooth', 'triangle'];
+let pb = [1, 1.5, 0.75, 2, 0.5, 1.26, 0.79];
+
+function makeSynth(){
+    let type1 = document.getElementById('osc1-type').value;
+    let type2 = document.getElementById('osc2-type').value;
+    let harm1 = document.getElementById('osc1-harmonize').value;
+    let harm2 = document.getElementById('osc2-harmonize').value;
+    navigator.requestMIDIAccess().then(function(access) {
+        let inputs = access.inputs;
+        inputs.forEach((input) => {
+            input.onmidimessage = function(message) {
+                let frequency = midiNoteToFrequency(message.data[1]);
+                // Log events with note values, only log 1 event per note
+                if(message.data[0] === 144 && message.data[2] > 0){
+                    pressNote(message.data);
+                    playNote(frequency*pb[harm1]-2, type1);
+                    playNote(frequency*pb[harm2]-1, type2);
+                    console.log(message);
+                }
+                if (message.data[0] === 128 || message.data[2] === 0) {
+                    pressNote(message.data);
+                    stopNote(frequency*pb[harm1]-2);
+                    stopNote(frequency*pb[harm2]-1);
+                }
             }
-        }
+        });
+        access.onstatechange = function(e) {
+            // Print information about the (dis)connected MIDI controller
+            console.log(e.port.name, e.port.manufacturer, e.port.state);
+        };
     });
-    access.onstatechange = function(e) {
-       // Print information about the (dis)connected MIDI controller
-       console.log(e.port.name, e.port.manufacturer, e.port.state);
-    };
-});
+}
