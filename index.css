@@ -1,0 +1,42 @@
+#whitekeys {
+	display: inline-block;
+	width: 1600px;
+	height: 200px;
+}
+
+#whitekeys div {
+	display: inline-block;
+	width: 48px;
+	height: 100%;
+	background: white;
+	border-color: black;
+	border-width: 2px;
+	border-style: solid;
+	margin: 0px;
+	padding: 0px;
+}
+
+#blackkeys {
+	display: inline-block;
+	position: absolute;
+	width: 1600px;
+	height: 200px;
+	top: 0px;
+	left: 37px;
+}
+
+#blackkeys div {
+	display: inline-block;
+	width: 30px;
+	height: 50%;
+	margin-left: 8px;
+	margin-right: 10px;
+	background: black;
+	border-color: black;
+	border-width: 2px;
+	border-style: solid;
+}
+
+#blackkeys .hide {
+	visibility: hidden;
+}
