@@ -22,12 +22,19 @@
  */
 
 
-function midiNoteToFrequency (note) {
+ function midiNoteToFrequency (note) {
     return Math.pow(2, ((note - 69) / 12)) * 440;
 }
 
 let context = new AudioContext(),
 oscillators = {};
+
+
+let gainNode = context.createGain();
+gainNode.gain.value = 0.1;
+
+gainNode.connect(context.destination);
+
 
 function pressNote(midiArray){
     let target = document.getElementById('n' + midiArray[1]);
@@ -44,7 +51,7 @@ function playNote (frequency,type) {
     oscillators[frequency] = context.createOscillator();
     oscillators[frequency].type = type;
     oscillators[frequency].frequency.value = frequency;
-    oscillators[frequency].connect(context.destination);
+    oscillators[frequency].connect(gainNode);
     oscillators[frequency].start(context.currentTime);
 }
  
@@ -53,8 +60,11 @@ function stopNote (frequency) {
     oscillators[frequency].disconnect();
 }
 let wav = ['sine', 'square', 'sawtooth', 'triangle'];
+//pitch bend multipliers (5th up/down, octave up/down, 3rd up/down)
 let pb = [1, 1.5, 0.75, 2, 0.5, 1.26, 0.79];
 
+//save notes + timestamps
+let midi_history = [];
 function makeSynth(){
     let type1 = document.getElementById('osc1-type').value;
     let type2 = document.getElementById('osc2-type').value;
