@@ -2,9 +2,17 @@
     <head>
         <title>Virtual MIDI Keyboard</title>
         <link rel="stylesheet" href="index.css">
+        <script type="text/javascript" src="./lib/abcjs-basic-min.js"></script>
     </head>
     <body>
         <div id="whitekeys">
+            <div id="n36"></div>
+            <div id="n38"></div>
+            <div id="n40"></div>
+            <div id="n41"></div>
+            <div id="n43"></div>
+            <div id="n45"></div>
+            <div id="n47"></div>
             <div id ="n48"></div>
             <div id ="n50"></div>
             <div id ="n52"></div>
@@ -35,6 +43,13 @@
             <div id ="n95"></div>
         </div>
         <div id="blackkeys">
+            <div id="n37"></div>
+            <div id="n39"></div>
+            <div class="hide"></div>
+            <div id="n42"></div>
+            <div id="n44"></div>
+            <div id="n46"></div>
+            <div class="hide"></div>
             <div id="n49"></div>
             <div id="n51"></div>
             <div class="hide"></div>
@@ -108,6 +123,24 @@
         </div>
         
         <button id="synbtn" onclick="makeSynth()">New synth</button>
+        <div id="paper"></div>
+        <button id="render" onclick="abcRender()">Render notes</button>
+        <button id="abcToggle" onclick="abcToggle()">Edit mode toggle</button>
+        <p>right hand</p>
+        <textarea id="right">[V: PianoRightHand]|z4(3gag f=e|_edcB =ACEF|(3_GAG FE =DFAc|GF z2 z2 =E=D|</textarea>
+        <p>left hand</p>
+        <textarea id="left">[V: PianoLeftHand]|[A,,E,C]8|[F,,E,=A,]8|[B,,=D,A,]8|</textarea>
+        <p>header</p>
+        <textarea id="header">X:1
+T:Donna Lee
+L:1/8
+%%staves {(PianoRightHand) (PianoLeftHand)}
+V:PianoRightHand clef=treble
+V:PianoLeftHand clef=bass
+K:Ab
+</textarea>
+
+        
         
         <h1>JSynth by bSharp</h1>
         <h3>MIDI compatible synthjams, now available in browser!</h3>

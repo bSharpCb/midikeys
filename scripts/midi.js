@@ -21,8 +21,7 @@
  * 
  */
 
-
- function midiNoteToFrequency (note) {
+function midiNoteToFrequency (note) {
     return Math.pow(2, ((note - 69) / 12)) * 440;
 }
 
@@ -37,6 +36,9 @@ gainNode.connect(context.destination);
 
 
 function pressNote(midiArray){
+    if(midiArray[1]<36 || midiArray[1] > 95){
+        return;
+    }
     let target = document.getElementById('n' + midiArray[1]);
     switch (midiArray[2]) {
         case 0:
@@ -65,6 +67,41 @@ let pb = [1, 1.5, 0.75, 2, 0.5, 1.26, 0.79];
 
 //save notes + timestamps
 let midi_history = [];
+
+let editMode = false;
+function abcToggle(){
+    editMode = !editMode;
+}
+const abcDict = ['2','4','8','[',']','(3','z','|',' ',
+'C,,','_D,,','D,,','_E,,','E,,','F,,','^F,,','G,,','_A,,','A,,','_B,,','B,,',
+'C,','_D,','D,','_E,','E,','F,','^F,','G,','_A,','A,','_B,','B,',
+'C','_D','D','_E','E','F','^F','G','_A','A','_B','B',
+'c','_d','d','_e','e','f','^f','g','_a','a','_b','b',
+'c,','_d,','d,','_e,','e,','f,','^f,','g,','_a,','a,','_b,','b,'
+];
+
+let handStaff = 'right';
+
+function editAbc(midiNote){
+    switch(midiNote[1]){
+        case 21:
+            handStaff = 'left';
+            break;
+            case 23:
+            handStaff = 'right';
+            break;
+            case 96:
+            abcToggle();
+            break;
+            case 97:
+            abcRender();
+            break;
+        default:
+            document.getElementById(handStaff).value += abcDict[midiNote[1]-27];
+    }
+}
+
+
 function makeSynth(){
     let type1 = document.getElementById('osc1-type').value;
     let type2 = document.getElementById('osc2-type').value;
@@ -78,6 +115,9 @@ function makeSynth(){
                 // Log events with note values, only log 1 event per note
                 if(message.data[0] === 144 && message.data[2] > 0){
                     pressNote(message.data);
+                    if(editMode){
+                        editAbc(message.data);
+                    }
                     playNote(frequency*pb[harm1]-2, wav[type1]);
                     playNote(frequency*pb[harm2]-1, wav[type2]);
                     console.log(message);
@@ -94,4 +134,28 @@ function makeSynth(){
             console.log(e.port.name, e.port.manufacturer, e.port.state);
         };
     });
+}
+
+function inputsToAbc(){
+
+}
+
+/*
+** ABC notation reference guide
+** = natural
+** ^ sharp
+** ^^ double sharp
+** _ flat
+** __ double flat
+** z rest
+** Z bar's rest
+*/
+
+function abcRender() {
+    let abcHeader = document.getElementById("header").value;
+    let abcRight = document.getElementById("right").value;
+    let abcLeft = document.getElementById("left").value;
+    let abcString = abcHeader + abcRight + abcLeft;
+    console.log(abcString);
+    window.ABCJS.renderAbc("paper", abcString);
 }
