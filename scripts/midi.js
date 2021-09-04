@@ -40,12 +40,10 @@ function pressNote(midiArray){
         return;
     }
     let target = document.getElementById('n' + midiArray[1]);
-    switch (midiArray[2]) {
-        case 0:
-            target.style = "";
-            break;
-        default:
-            target.style = "background:" + "blue;";
+    if(midiArray[0] === 128 || midiArray[2] === 0){
+        target.style="";
+    }else{
+        target.style = "background:" + "blue;";
     }
 }
 
