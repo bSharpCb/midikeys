@@ -34,7 +34,7 @@ const abcDict = ['2','4','8','[',']','(3','z','|',' ',
 'C,','_D,','D,','_E,','E,','F,','^F,','G,','_A,','A,','_B,','B,',
 'C','_D','D','_E','E','F','^F','G','_A','A','_B','B',
 'c','_d','d','_e','e','f','^f','g','_a','a','_b','b',
-'c,','_d,','d,','_e,','e,','f,','^f,','g,','_a,','a,','_b,','b,'
+'c\'','_d\'','d\'','_e\'','e\'','f\'','^f\'','g\'','_a\'','a\'','_b\'','b\''
 ];
 
 let handStaff = 'right';
@@ -62,14 +62,21 @@ notes.active = [];
 
 function editAbc(midiNote){
     if(midiNote === 21){
+        document.getElementById(handStaff).style="";
         handStaff = 'left';
+        document.getElementById(handStaff).style="font-weight:" + "bold;";
     }else if(midiNote === 23){
+        document.getElementById(handStaff).style="";
         handStaff = 'right';
+        document.getElementById(handStaff).style="font-weight:" + "bold;";
     }else{
         switch(notes.active.length){
             case 1:
                 document.getElementById(handStaff).value += abcDict[notes.active[0]-27];
                 abcRender();
+                break;
+            case 0:
+                document.getElementById(handStaff).value += ' ';
                 break;
             default:
                 document.getElementById(handStaff).value += '[';

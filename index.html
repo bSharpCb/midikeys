@@ -126,14 +126,22 @@
         <div id="paper"></div>
         <button id="render" onclick="abcRender()">Render notes</button>
         <button id="abcToggle" onclick="abcToggle()">Edit mode toggle</button>
+        <div id="editReadme">
+            MIDI notes : corresponding edit function
+            21 : edit left hand
+            23 : edit right hand 
+            27 28 29 : 2 4 8(time)
+            
+
+        </div>
         <p>right hand</p>
-        <textarea id="right">[V: PianoRightHand]|z4(3gag f=e|_edcB =ACEF|(3_GAG FE =DFAc|GF z2 z2 =E=D|</textarea>
+        <textarea id="right">[V: PianoRightHand]|</textarea>
         <p>left hand</p>
-        <textarea id="left">[V: PianoLeftHand]|[A,,E,C]8|[F,,E,=A,]8|[B,,=D,A,]8|</textarea>
+        <textarea id="left">[V: PianoLeftHand]|</textarea>
         <p>header</p>
         <textarea id="header">X:1
-T:Donna Lee
-L:1/8
+T:Song title 
+L:1/4
 %%staves {(PianoRightHand) (PianoLeftHand)}
 V:PianoRightHand clef=treble
 V:PianoLeftHand clef=bass
