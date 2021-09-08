@@ -57,19 +57,30 @@ function abcToggle(){
     editMode = !editMode;
 }
 
+let notes = {};
+notes.active = [];
 
 function editAbc(midiNote){
-    switch(midiNote[1]){
-        case 21:
-            handStaff = 'left';
-            break;
-        case 23:
-            handStaff = 'right';
-            break;
-        default:
-            document.getElementById(handStaff).value += abcDict[midiNote[1]-27];
-            abcRender();
+    if(midiNote === 21){
+        handStaff = 'left';
+    }else if(midiNote === 23){
+        handStaff = 'right';
+    }else{
+        switch(notes.active.length){
+            case 1:
+                document.getElementById(handStaff).value += abcDict[notes.active[0]-27];
+                abcRender();
+                break;
+            default:
+                document.getElementById(handStaff).value += '[';
+                for(let i=0; i<notes.active.length; i++){
+                    document.getElementById(handStaff).value += abcDict[notes.active[i]-27];
+                }
+                document.getElementById(handStaff).value += ']';
+                abcRender();
+        }
     }
+    notes.active=[];
 }
 
 
@@ -87,13 +98,20 @@ function makeSynth(){
                 if(message.data[0] === 144 && message.data[2] > 0){
                     pressNote(message.data);
                     if(editMode){
-                        editAbc(message.data);
+                        notes[message.data[1]] = 1;
+                        notes.active.push(message.data[1]);
                     }
                     playNote(frequency*pb[harm1]-2, wav[type1]);
                     playNote(frequency*pb[harm2]-1, wav[type2]);
                     console.log(message);
                 }
                 if (message.data[0] === 128 || message.data[2] === 0) {
+                    if(editMode){
+                        if(notes[message.data[1]]){
+                            notes[message.data[1]] = 0;
+                            editAbc(message.data[1]);
+                        }
+                    }
                     pressNote(message.data);
                     stopNote(frequency*pb[harm1]-2);
                     stopNote(frequency*pb[harm2]-1);
