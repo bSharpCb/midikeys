@@ -62,13 +62,13 @@ notes.active = [];
 
 function editAbc(midiNote){
     if(midiNote === 21){
-        document.getElementById(handStaff).style="";
+        document.getElementById('rightHeader').style="";
         handStaff = 'left';
-        document.getElementById(handStaff).style="font-weight:" + "bold;";
+        document.getElementById('leftHeader').style="font-weight:" + "bold;";
     }else if(midiNote === 23){
-        document.getElementById(handStaff).style="";
+        document.getElementById('leftHeader').style="";
         handStaff = 'right';
-        document.getElementById(handStaff).style="font-weight:" + "bold;";
+        document.getElementById('rightHeader').style="font-weight:" + "bold;";
     }else{
         switch(notes.active.length){
             case 1:
